@@ -1,37 +1,88 @@
-/*  import React from 'react';
-
-import { Link } from 'react-router-dom';
-import {
-    ListGroup,
-    ListGroupItem,
-    Button
-
-} from 'reactstrap';
+import {Modal,Button} from 'react-bootstrap';
+import {useContext, useState} from 'react';
+import {VehicleContext} from '../contexts/VehicleContext';
+import Vehicle from './Vehicle';
+import AddForm from './AddForm';
 
 
-export const Userlist = () => {
+
+const VehicleList = () => { 
+
+ 
+        const {employees} = useContext(VehicleContext);
+        const[show, setShow] = useState(false);
+
+        const handleShow = () => setShow(true);
+        const handleClose = () => setShow(false);
+
+       /*  useEffect (( ) => {
+            handleClose()
+        },[employees]) */
+
+      
+
     return (
-        <ListGroup>
-            <ListGroupItem className="d-flex">
-                <strong> Vehicle One </strong>
-                <div className="ml-auto">
-                <Link className ="btn btn-success mr-1" to ="/edit/1">Edit</Link>
-                <Button color="danger">Delete</Button>
+
+        <>
+
+            <div className="table-title">
+                <div className="row">
+                    <div className="col-sm-6">
+                        <h2>Manage <b> Vehicles</b></h2>
+                    </div>
+                    <div className="col-sm-6">
+                        <Button variant="primary" OnClick={handleShow} className="btn btn-success" data-toggle="modal"><i className="material-icons">&#xE147;</i> <span>Add New Vehicle</span></Button>
+                       
+                    </div>
                 </div>
-            </ListGroupItem>
-            
+            </div>
 
-            <ListGroupItem className="d-flex">
-                <strong> Vehicle Two </strong>
-                <div className="ml-auto">
-                <Link className ="btn btn-success mr-1" to ="/edit/1">Edit</Link>
-                <Button color="danger">Delete</Button>
-                </div>
-            </ListGroupItem>
+            <table className="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone  </th>
+                        <th >Actions </th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                        {
+                            employees.map(employee =>(
+                                <tr key={employee.id}>
+                                     <Vehicle employee={employee}/>
 
+                                </tr>
+                            
+                            ))
+                        }
+                       
+                
+                </tbody>
+            </table>
 
-        </ListGroup>
-        
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        Add Vehicle
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <AddForm/>
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose} >
+                        Close Button
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>  
+
+        </>
     )
 }
-   */
+
+export default VehicleList;
